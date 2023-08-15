@@ -5,75 +5,98 @@ let choices=["rock",'paper',"scissor"]
 let random=choices[Math.floor(Math.random()*choices.length)]
 return random
 }
+
+let result=document.getElementById("result")
+result.classList.add("results")
 // player and computer scores
 let player=0
 let computer=0
 
 //All game concepts are defined here
-function theWinner(){
-    let playerSelection=prompt("Enter your choice:")
-    let computerSelection=getComputerChoice()
+function theWinner(playerSelection,computerSelection){
     playerSelection=playerSelection.toLowerCase()
-    console.log( playerSelection)
-    console.log( computerSelection)
-
  //conditions
     if (playerSelection=="rock" && computerSelection=="paper"){
-        console.log("You Lose! Paper beats Rock")
+        result.innerText="You Lose! Paper beats Rock"
+        console.log(player)
         return(
             computer++
         )
-}
+    }
     else if (playerSelection=="paper" && computerSelection=="rock"){
-        console.log("You Win! Paper beats Rock")
+        result.innerText="You Win! Paper beats Rock"
         return player++
-}
+    }
     else if (playerSelection=="scissor" && computerSelection=="rock"){
-        console.log("You Lose! Rock beats Scissor")
+        result.innerText="You Lose! Rock beats Scissor"
         return computer++
-}
+    }
     else if (playerSelection=="rock" && computerSelection=="scissor"){
-        console.log("You Win! Rock beats Scissor")
+        result.innerText="You Win! Rock beats Scissor"
         return(
          player++
     )
-}
+    }
     else if (playerSelection=="paper" && computerSelection=="scissor"){
-        console.log("You Lose! Scissor beats Paper" )
+        result.innerText="You Lose! Scissor beats Paper" 
         return computer++
-}
+    }
     else if(playerSelection=="scissor" && computerSelection=="paper"){
-        console.log("You Win! Scissor beats Paper")
+        result.innerText="You Win! Scissor beats Paper"
         return  player++
-}
+    }
     else if(computerSelection==playerSelection)[
-        console.log("Tie")
-]
+        result.innerText="Tie"
+    ]
     else{
-        console.log("Invalid Input")
-}
+        result.innerText="Invalid Input"
+    }
 
     }
 //Here, the winner of 5 rounds is decided
-    function theGame(){
-        for(let i=0; i<5;i++){
-            theWinner()
+    function theGame(playerSelection){
+        let computerSelection=getComputerChoice()
+       
+        theWinner(playerSelection,computerSelection)
+        let newElement=document.createElement("p")
+        newElement.classList.add("para")
+        if(player==5){
+            newElement.innerHTML=`player score:${player}<br>computer score:${computer}<br>player wins`
+            
         }
-        if(player>computer){
-            console.log(`Player's Score:${player}`)
-            console.log(`Computer's Score:${computer}`)
-            console.log("Player Wins")
+        else if(computer==5){
+            newElement.innerHTML=`player score:${player}<br>computer score:${computer}<br>computer wins`
         }
-        else if(player<computer){
-            console.log(`Player's Score:${player}`)
-            console.log(`Computer's Score:${computer}`)
-            console.log("Computer Wins")
+        result.appendChild(newElement)
+        checkGameEnd()
+        
         }
-        else{
-            console.log(`Player's Score:${player}`)
-            console.log(`Computer's Score:${computer}`)
-            console.log("Tie")
+
+    document.getElementById("rock").addEventListener("click",()=>{
+        theGame("rock")
+    })
+    document.getElementById("paper").addEventListener("click",()=>{
+        theGame("paper")
+    })
+    document.getElementById("scissor").addEventListener("click",()=>{
+        theGame("scissor")
+    })
+    let newtry
+    //play the game again
+
+    //End the game after  whoever scores 5 first
+    function checkGameEnd(){
+        if(player==5){
+            result.innerText="Game Over!!! Player Wins"
+            removeButtons()
         }
+        else if(computer==5){
+            result.innerText="Game Over!!! Computer Wins"
+            removeButtons()
         }
-        theGame()
-    
+    }
+   function removeButtons(){
+    document.getElementById("rock").remove()   
+    document.getElementById("paper").remove()
+    document.getElementById("scissor").remove()
+   }
